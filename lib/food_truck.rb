@@ -1,3 +1,5 @@
+require 'pry'
+
 class FoodTruck
   attr_reader :name, :inventory
 
@@ -12,6 +14,12 @@ class FoodTruck
 
   def stock(item, quantity)
     @inventory[item] += quantity
+  end
+
+  def potential_revenue
+    @inventory.map do |item|
+      item[0].price * item[1]
+    end.sum
   end
 
 
