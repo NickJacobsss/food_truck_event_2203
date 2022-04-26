@@ -41,11 +41,21 @@ class Event
   end
 
   def overstocked_items
+    total_inventory.map do |item, values|
+    item if values[:quantity] > 50 and values[:food_trucks].length > 1
+  end.compact
+  end
+
+  def total_inventory
+    inventory_hash = {}
     @food_trucks.each do |truck|
       truck.inventory.each do |item, quantity|
-        binding.pry
+        inventory_hash[item] = {quantity: 0, food_trucks: []} if inventory_hash[item].nil?
+        inventory_hash[item][:quantity] += quantity
+        inventory_hash[item][:food_trucks] << truck
+        end
       end
-    end
+    inventory_hash
   end
 
 end
